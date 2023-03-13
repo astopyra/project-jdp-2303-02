@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "GROUP")
+@Entity(name = "PRODUCT_GROUP")
 public class Group {
 
     @Id
@@ -20,6 +20,8 @@ public class Group {
     @NotNull
     @Column(name = "GROUP_ID", unique = true)
     private long id;
+    @Column(name = "GROUP_NAME")
+    private String groupName;
     @OneToMany(
             targetEntity = Product.class,
             mappedBy = "productGroup",
