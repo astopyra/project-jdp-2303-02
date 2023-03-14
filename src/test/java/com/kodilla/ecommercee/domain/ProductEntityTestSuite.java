@@ -80,7 +80,7 @@ public class ProductEntityTestSuite {
         assertEquals(4, productList.size());
 
 //        CleanUp
-//        productRepository.deleteById(product1.getId());
+        productRepository.deleteById(product1.getId());
         productRepository.deleteById(product2.getId());
         productRepository.deleteById(product3.getId());
         productRepository.deleteById(product4.getId());
