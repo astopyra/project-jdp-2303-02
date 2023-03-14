@@ -23,7 +23,7 @@ public class Product {
     @Column(name = "PRODUCT_ID", unique = true)
     private long id;
     @Column(name = "PRODUCT_NAME")
-    private long productName;
+    private String productName;
     @Column(name = "PRODUCT_PRICE")
     private BigDecimal productPrice;
     @ManyToOne
