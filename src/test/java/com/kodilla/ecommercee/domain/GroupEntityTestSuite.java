@@ -3,85 +3,105 @@ package com.kodilla.ecommercee.domain;
 
 import com.kodilla.ecommercee.entity.Group;
 import com.kodilla.ecommercee.repository.GroupRepository;
-import org.junit.BeforeClass;
+import com.kodilla.ecommercee.repository.ProductRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class GroupEntityTestSuite {
 
-    @Mock
+    @Autowired
     private GroupRepository groupRepository;
-
-    private static Group group1;
-    private static Group group2;
-
-    @BeforeClass
-    public static void setUp() {
-        group1 = new Group(1, "Group 1", new ArrayList<>());
-        group2 = new Group(2, "Group 2", new ArrayList<>());
-    }
+    @Autowired
+    private ProductRepository productRepository;
 
     @Test
-    public void testFindAll() {
+    public void testSaveGroup() {
         //Given
-        List<Group> groupList = new ArrayList<>();
-        groupList.add(group1);
-        groupList.add(group2);
+        Group group1 = new Group();
+        Group group2 = new Group();
 
         //When
-        when(groupRepository.findAll()).thenReturn(groupList);
-        List<Group> result = groupRepository.findAll();
+        groupRepository.save(group1);
+        groupRepository.save(group2);
 
         //Then
-        assertEquals(2, result.size());
-        assertTrue(result.contains(group1));
-        assertTrue(result.contains(group2));
+        assertEquals(2, groupRepository.findAll().size());
     }
 
     @Test
-    public void testFindById() {
-        //Given & when
-        when(groupRepository.findById(1L)).thenReturn(Optional.of(group1));
-        Optional<Group> result = groupRepository.findById(1L);
-
-        //Then
-        assertTrue(result.isPresent());
-        assertEquals(group1, result.get());
-    }
-
-    @Test
-    public void testDeleteById() {
-        //Given & When
-        groupRepository.deleteById(1L);
-
-        //Then
-        Mockito.verify(groupRepository).deleteById(1L);
-    }
-
-    @Test
-    public void testSave() {
+    public void testFindAllGroups() {
         //Given
-        Group group3 = new Group(3, "Group 3", new ArrayList<>());
+        Group group1 = new Group();
+        Group group2 = new Group();
 
         //When
-        when(groupRepository.save(group3)).thenReturn(group3);
-        Group result = groupRepository.save(group3);
+        groupRepository.save(group1);
+        groupRepository.save(group2);
+        List<Group> groups = groupRepository.findAll();
 
         //Then
-        assertEquals(group3, result);
+        assertEquals(2, groups.size());
+    }
+
+    @Test
+    public void testDeleteGroupById() {
+        //Given
+        Group group1 = new Group();
+        Group group2 = new Group();
+        //When
+        groupRepository.save(group1);
+        groupRepository.save(group2);
+        int savedSize = groupRepository.findAll().size();
+
+        groupRepository.deleteById(group1.getId());
+        groupRepository.deleteById(group2.getId());
+        int deletedSize = groupRepository.findAll().size();
+
+        //Then
+        assertEquals(2, savedSize);
+        assertEquals(0, deletedSize);
+    }
+
+    @Test
+    public void testCreateGroupWithProducts() {
+        //Given
+        Group group = new Group();
+        Product product1 = new Product();
+        Product product2 = new Product();
+
+        //When
+        group.getProducts().add(product1);
+        group.getProducts().add(product2);
+        groupRepository.save(group);
+
+        //Then
+        assertEquals(1, groupRepository.findAll().size());
+        assertEquals(2, productRepository.findAll().size());
+    }
+
+    @Test
+    public void testFindGroupById() {
+        //Given
+        Group group1 = new Group();
+        Group group2 = new Group();
+
+        //When
+        groupRepository.save(group1);
+        groupRepository.save(group2);
+
+        //Then
+        assertEquals(group1, groupRepository.findById(group1.getId()).orElse(null));
+        assertEquals(group2, groupRepository.findById(group2.getId()).orElse(null));
     }
 }
