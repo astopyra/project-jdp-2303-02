@@ -9,10 +9,10 @@ public class UserDto {
     private String surname;
     private boolean isLoggable;
 
-    public UserDto(Long id, String name, String surname) {
+    public UserDto(Long id, String name, String surname, boolean isLoggable) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.isLoggable = true;
+        this.isLoggable = isLoggable;
     }
 }
