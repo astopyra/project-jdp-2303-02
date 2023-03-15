@@ -24,6 +24,7 @@ import static org.springframework.test.util.AssertionErrors.assertTrue;
 @Transactional
 public class CartEntityTestSuite {
 
+
     @Autowired
     private GroupRepository groupRepository;
     @Autowired
