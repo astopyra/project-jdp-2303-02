@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,15 +21,19 @@ public class ProductDbService {
 
     public Product getProduct(final Long productId) throws ProductNotFoundException{
         return repository.findById(productId).orElseThrow(()->new ProductNotFoundException(
-                "Product with ID:" + productId + "not found"));
+                "Product with given ID not found"));
     }
 
     public Product saveProduct(final Product product){
         return repository.save(product);
     }
 
-    public void deleteProduct(Long productId){
-        repository.deleteById(productId);
-    }
+    public void deleteProduct(Long productId) throws ProductNotFoundException {
 
+        Optional<Product> productToDelete = repository.findById(productId);
+
+        if(productToDelete.isPresent()) {
+            repository.deleteById(productId);
+        } else throw new ProductNotFoundException("Product with given ID not found");
+    }
 }

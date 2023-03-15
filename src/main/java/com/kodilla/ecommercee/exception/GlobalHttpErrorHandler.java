@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<Object> handleUserNotFoundException(ProductNotFoundException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<Object> handleProductNotFoundException(ProductNotFoundException exception) {
+        return new ResponseEntity<>("Product with given id not found", HttpStatus.NOT_FOUND);
     }
 }
