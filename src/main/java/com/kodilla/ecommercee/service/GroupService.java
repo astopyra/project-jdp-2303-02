@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.entity.Group;
+import com.kodilla.ecommercee.exception.GroupNotFoundException;
 import com.kodilla.ecommercee.repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,11 +18,11 @@ public class GroupService {
         return groupRepository.findAll();
     }
 
-    public Group addGroup(final Group group) {
+    public Group saveGroup(final Group group) {
         return groupRepository.save(group);
     }
 
-    public Group getGroupById(final Long id) {
-        return groupRepository.findById(id).orElse(null);
+    public Group getGroupById(final Long id) throws GroupNotFoundException {
+        return groupRepository.findById(id).orElseThrow(() -> new GroupNotFoundException("Group with given id number couldn't be found"));
     }
 }
