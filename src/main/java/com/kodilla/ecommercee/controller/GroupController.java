@@ -16,7 +16,7 @@ import java.util.List;
 public class GroupController {
 
     @GetMapping
-    public List<GroupDto> getGroups() {
+    public  List<GroupDto> getGroups() {
         List<GroupDto> groupsList = new ArrayList<>();
         groupsList.add(new GroupDto(1L, "test-Group1"));
         groupsList.add(new GroupDto(2L, "test-Group2"));
