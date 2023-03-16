@@ -20,15 +20,12 @@ public class User {
     @Column(name = "ID",unique=true)
     private Long id;
 
-    @NotNull
     @Column(name = "NAME")
     private String name;
 
-    @NotNull
     @Column(name = "SURNAME")
     private String surname;
 
-    @NotNull
     @Column(name = "USER_ISLOGGABLE")
     private boolean user_isLoggable;
 
@@ -39,6 +36,5 @@ public class User {
             fetch = FetchType.LAZY
     )
     private List<Cart> carts = new ArrayList<>();
-
-
+    
 }

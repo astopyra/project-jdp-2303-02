@@ -1,6 +1,9 @@
 package com.kodilla.ecommercee.domain;
 
-import lombok.*;
+import com.kodilla.ecommercee.entity.Group;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -32,7 +35,6 @@ public class Product {
             inverseJoinColumns = {@JoinColumn(name = "CART_ID", referencedColumnName = "ID")}
     )
     private List<Cart> carts = new ArrayList<>();
-
 
     public Product(long id, String productName, BigDecimal productPrice) {
         this.id = id;
