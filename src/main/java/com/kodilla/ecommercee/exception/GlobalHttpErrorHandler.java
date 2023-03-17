@@ -18,4 +18,8 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<Object> handleOrderNotFoundException (OrderNotFoundException exception) {
+        return new ResponseEntity<>("Order with this ID does not exist", HttpStatus.NOT_FOUND );
+    }
 }

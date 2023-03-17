@@ -1,38 +1,57 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.OrderDto;
+import com.kodilla.ecommercee.exception.OrderNotFoundException;
+import com.kodilla.ecommercee.mapper.OrderMapper;
+import com.kodilla.ecommercee.service.OrderDbService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
+@RequiredArgsConstructor
 @CrossOrigin("*")
 public class OrderController {
 
+    private final OrderDbService orderDbService;
+    private final OrderMapper orderMapper;
+
+
     @GetMapping
-    public List<OrderDto> getOrders() {
-        return new ArrayList<>();
+    public ResponseEntity<List<OrderDto>> getOrders() {
+        List<Order> orders = orderDbService.getAllOrders();
+                return ResponseEntity.ok(orderMapper.mapToOrderDtoList(orders));
     }
 
     @GetMapping(value = "{orderId}")
-    public OrderDto getOrder(@PathVariable long orderId) {
-        return new OrderDto();
+    public ResponseEntity<OrderDto> getOrder(@PathVariable long orderId) throws OrderNotFoundException {
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(orderDbService.getOrderById(orderId)));
     }
 
     @DeleteMapping(value = "{orderId}")
-    public void deleteOrder(@PathVariable long orderId) {
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) throws OrderNotFoundException {
+        orderDbService.deleteOrder(orderId);
+        return ResponseEntity.ok().build();
 
     }
 
     @PutMapping
-    public OrderDto updateOrder(@RequestBody OrderDto orderDto) {
-        return new OrderDto();
+    public ResponseEntity<OrderDto> updateOrder(@RequestBody OrderDto orderDto) throws OrderNotFoundException {
+        Order order = orderMapper.mapToOrder(orderDto);
+        Order updateOrder = orderDbService.updateOrder(order);
+        orderMapper.mapToOrderDto(updateOrder);
+        return ResponseEntity.ok().build();
+
     }
 
     @PostMapping
-    public void createOrder(@RequestBody OrderDto orderDto) {
-
+    public ResponseEntity<Order> createOrder(@RequestBody OrderDto orderDto) {
+        Order order = orderMapper.mapToOrder(orderDto);
+        orderDbService.saveOrder(order);
+        return ResponseEntity.ok().build();
     }
 }
