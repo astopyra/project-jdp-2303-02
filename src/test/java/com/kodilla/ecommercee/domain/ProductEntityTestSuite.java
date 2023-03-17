@@ -1,5 +1,7 @@
 package com.kodilla.ecommercee.domain;
 
+
+import com.kodilla.ecommercee.entity.Group;
 import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.GroupRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
