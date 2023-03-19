@@ -2,15 +2,18 @@ package com.kodilla.ecommercee.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
 
-@Getter
+@Data
 @AllArgsConstructor
 public class OrderDto {
 
     private Long id;
-    private Long cartId;
+    private BigDecimal totalPrice;
+    private CartDto cart;
 
+    public OrderDto(Long id, Long cartId) {
+        this.id = id;
+        this.cart = new CartDto();
     }
-
+}
