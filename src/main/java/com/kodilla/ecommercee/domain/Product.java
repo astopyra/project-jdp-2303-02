@@ -1,6 +1,5 @@
 package com.kodilla.ecommercee.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +18,7 @@ public class Product {
     @GeneratedValue
     @NotNull
     @Column(name = "PRODUCT_ID", unique = true)
-    private long id;
+    private Long id;
     @Column(name = "PRODUCT_NAME")
     private String productName;
     @Column(name = "PRODUCT_PRICE")
